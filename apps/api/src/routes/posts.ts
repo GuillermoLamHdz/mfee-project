@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
   // Retrieve the name from the request body
   const { title, image, description, category, comments} = req.body;
 
-  if (!title || !image || !description || !category || !comments) {
+  if (!title || !image || !description || !category) {
     // If a required field is empty or undefined return a 400 status code with a message
     return res.status(400).json({ message: 'Missing field.' });
   }
@@ -86,6 +86,10 @@ router.post('/:id/comments', (req, res) => {
   const currentPost = getPost(id);
   if (!currentPost) {
     return res.status(404).json({ message: 'Post not found' });
+  }
+
+  if (!currentPost.comments) {
+    currentPost.comments = [];
   }
 
   // Add the new comment to comments array
